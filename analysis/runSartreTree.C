@@ -278,10 +278,17 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                     && TMath::Abs(vmd2Vec_new.Eta())<1.4
                         && imass==1){
                     if( vm_name=="rho"||vm_name=="rho_photo" ){
-                        if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
-                            && vmd1Vec_new.Pt()>0.25){ continue;}//daughter 1 hpDIRC veto with 100% separation
-                        if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
-                            && vmd1Vec_new.Pt()>0.25){ continue;}//daughter 1 hpDIRC veto with 100% separation
+                        // //hpDIRC
+                        // if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
+                        //     && vmd1Vec_new.Pt()>0.25){ continue;}//daughter 1 hpDIRC veto with 100% separation
+                        // if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
+                        //     && vmd1Vec_new.Pt()>0.25){ continue;}//daughter 1 hpDIRC veto with 100% separation
+                        // //END hpDIRC
+
+                        //TOF
+                        if( vmd1Vec_new.Pt()>0.15
+                             && vmd2Vec_new.Pt()>0.15){ continue;}//assuming 100%
+                        //END TOF
                     }
                 }
             }
