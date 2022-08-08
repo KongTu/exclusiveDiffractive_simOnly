@@ -125,6 +125,7 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                 Form("h_Amass_%d_%d",ibreak,imass), 100,0,0.2,100,-3,3);
         }
     }
+    TH2D* h_PID=new TH2D("h_PID",";p;chi2",100,0,3,500,0,100);
     TH1D* h_xbj_truth = new TH1D("h_xbj_truth","xbj",1000,1e-5,1.);
     TH1D* h_xbj = new TH1D("h_xbj","xbj",1000,1e-5,1.);
     //
@@ -247,8 +248,6 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         //daughter cuts.
         if (TMath::Abs(vmd1Vec.Eta())>1.4) accepted = false;
         if (TMath::Abs(vmd2Vec.Eta())>1.4) accepted = false;
-        // if (vmd1Vec.P() < 1. ) accepted = false;
-        // if (vmd2Vec.P() < 1. ) accepted = false;
         if (vmd1Vec.Pt() < minPt_) accepted = false;
         if (vmd2Vec.Pt() < minPt_) accepted = false;
         if (!accepted) continue;
@@ -282,8 +281,12 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                                 && vmd1Vec_new.Pt()>0.25){ if(piNonPiseparation()) {continue;} }//daughter 1 hpDIRC veto with 3\sigma separation
                         }//END hpDIRC
                         //TOF
-                        if( PID_==2 && vmd1Vec_new.Pt()>0.15
-                             && vmd2Vec_new.Pt()>0.15){ if(piNonPiseparation()) {continue;} }//assuming 3\sigma separation
+                        else if( PID_==2 ){ 
+                            double chi2=-99.;
+                            chi2 = giveMe_PIDChi2(vmd1Vec_new, vmd2Vec_new, MASS_PION);
+                            h_PID->Fill(vmd1Vec_new.P(), chi2);
+                            if(chi2>4.6) continue;
+                         }
                         //END TOF
                     }
                 }

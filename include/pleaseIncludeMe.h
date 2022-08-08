@@ -150,11 +150,8 @@ double giveMe_Amass(TLorentzVector e_beam, TLorentzVector e_scattered, TLorentzV
 }
 //
 double pathLength(double pt, double p){
-  double BField = 0.;//Tesla
-  if(minPt_>0.3) BField=3.0;
-  if(minPt_>=0.15 && minPt_<=0.3) BField=1.5;
-  if(minPt_<0.15 && minPt_>=0.07) BField=0.5;
-  double LGADTOF = 50.0; //cm
+  double BField = 1.4;//Tesla
+  double LGADTOF = 64.0; //50cm from ATHENA, 64cm from ECCE
   double sintheta=LGADTOF*0.003*BField/2.0/pt;
   if (sintheta>1.0) return 0.0;
   double arc = 2.0*p/0.003/BField*TMath::ASin(sintheta);
