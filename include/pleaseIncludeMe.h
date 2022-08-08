@@ -61,7 +61,7 @@
 #define MASS_AU197    183.45406466643374
 #define MASS_PB208    193.69769264273208
 double daughtermasslist[]={MASS_PION,MASS_KAON,MASS_ELECTRON};
-
+TF1* f1_rand=new TF1("f1_rand","1",0,1);
 using namespace std;
 using namespace erhic;
 
@@ -328,5 +328,10 @@ vector<TLorentzVector> letsMakeItReal(TLorentzVector e_beam, TLorentzVector e_sc
 		update.push_back(daug_2);
 
 		return update;
+}
+
+bool piNonPiseparation(){
+	if(f1_rand->GetRandom()>0.997) return false;
+	else return true;
 }
 

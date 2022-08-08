@@ -125,12 +125,8 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                 Form("h_Amass_%d_%d",ibreak,imass), 100,0,0.2,100,-3,3);
         }
     }
-    TH2D* h_PID=new TH2D("h_PID",";p;chi2",100,0,3,500,0,100);
     TH1D* h_xbj_truth = new TH1D("h_xbj_truth","xbj",1000,1e-5,1.);
     TH1D* h_xbj = new TH1D("h_xbj","xbj",1000,1e-5,1.);
-    TH1D* h_Q2_select = new TH1D("h_Q2_select","Q2",100,0,100);
-    TH1D* h_Eta_e = new TH1D("h_Eta_e","Q2",50,-4,2);
-    
     //
     //  Build chain
     //
@@ -273,21 +269,21 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
             vmd2Vec_new.SetVectM(temp_v2,daughtermasslist[imass]);
             vmVec_new = vmd1Vec_new+vmd2Vec_new;
             
-            if(PID_==1){
+            if(PID_>0){
                 if(TMath::Abs(vmd1Vec_new.Eta())<1.4 
                     && TMath::Abs(vmd2Vec_new.Eta())<1.4
                         && imass==1){
                     if( vm_name=="rho"||vm_name=="rho_photo" ){
-                        // //hpDIRC
-                        // if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
-                        //     && vmd1Vec_new.Pt()>0.25){ continue;}//daughter 1 hpDIRC veto with 100% separation
-                        // if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
-                        //     && vmd1Vec_new.Pt()>0.25){ continue;}//daughter 1 hpDIRC veto with 100% separation
-                        // //END hpDIRC
-
+                        //hpDIRC
+                        if(PID_==1){
+                            if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
+                            && vmd1Vec_new.Pt()>0.25){ if(piNonPiseparation) {continue;} }//daughter 1 hpDIRC veto with 3\sigma separation
+                            if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
+                                && vmd1Vec_new.Pt()>0.25){ if(piNonPiseparation) {continue;} }//daughter 1 hpDIRC veto with 3\sigma separation
+                        }//END hpDIRC
                         //TOF
-                        if( vmd1Vec_new.Pt()>0.15
-                             && vmd2Vec_new.Pt()>0.15){ continue;}//assuming 100%
+                        if( PID_==2 && vmd1Vec_new.Pt()>0.15
+                             && vmd2Vec_new.Pt()>0.15){ if(piNonPiseparation) {continue;} }//assuming 3\sigma separation
                         //END TOF
                     }
                 }
