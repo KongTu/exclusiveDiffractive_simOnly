@@ -277,14 +277,15 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                         if(PID_==1){
                             if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
                             && vmd1Vec_new.Pt()>0.25){ if(piNonPiseparation()) {continue;} }//daughter 1 hpDIRC veto with 3\sigma separation
-                            if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
-                                && vmd1Vec_new.Pt()>0.25){ if(piNonPiseparation()) {continue;} }//daughter 1 hpDIRC veto with 3\sigma separation
+                            if(TMath::Abs(vmd2Vec_new.Eta())>0.15 
+                                && vmd2Vec_new.Pt()>0.25){ if(piNonPiseparation()) {continue;} }//daughter 1 hpDIRC veto with 3\sigma separation
                         }//END hpDIRC
                         //TOF
                         else if( PID_==2 ){ 
                             double chi2=-99.;
                             chi2 = giveMe_PIDChi2(vmd1Vec_new, vmd2Vec_new, MASS_PION);
                             h_PID->Fill(vmd1Vec_new.P(), chi2);
+                            h_PID->Fill(vmd2Vec_new.P(), chi2);
                             if(chi2>4.6) {continue;}
                          }
                         //END TOF
