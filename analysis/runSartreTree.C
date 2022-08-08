@@ -240,20 +240,19 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         h_xbj_truth->Fill(myEvent.x);    
         if (Q2>10.||Q2<1.) accepted = false;
         if (xbj > 0.01 ) accepted = false; //artifact cut.
-        // if (TMath::Abs(vmVec.Rapidity())>4.) accepted = false;
-        // if (TMath::Abs(vmd1Vec.Eta())>4.) accepted = false;
-        // if (TMath::Abs(vmd2Vec.Eta())>4.) accepted = false;
-        // if (W < 20.) accepted = false;
-        // if (vmd1Vec.P() < 1. ) accepted = false;
-        // if (vmd2Vec.P() < 1. ) accepted = false;
         if (!accepted) continue;
-        if (myEvent.dmode < 0.5) { // coherent
-            hist_t_coherent->Fill(fabs(myEvent.t), 1);
-        }
-        else {                    // incoherent
-            hist_t_incoherent->Fill(fabs(myEvent.t), 1);
-            h_xbj->Fill(xbj);
-        }
+            if (myEvent.dmode < 0.5) { // coherent
+                hist_t_coherent->Fill(fabs(myEvent.t), 1);
+            }else {                    // incoherent
+                hist_t_incoherent->Fill(fabs(myEvent.t), 1);
+                h_xbj->Fill(xbj);
+            }
+        if (TMath::Abs(vmVec.Rapidity())>4.) accepted = false;
+        if (TMath::Abs(vmd1Vec.Eta())>4.) accepted = false;
+        if (TMath::Abs(vmd2Vec.Eta())>4.) accepted = false;
+        if (vmd1Vec.P() < 1. ) accepted = false;
+        if (vmd2Vec.P() < 1. ) accepted = false;
+
         if (TMath::Abs(vmd1Vec.PseudoRapidity()) > 4.) accepted = false;
         if (TMath::Abs(vmd2Vec.PseudoRapidity()) > 4.) accepted = false;
         if (vmd1Vec.Pt() < minPt_) accepted = false;
@@ -265,20 +264,8 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         else {                    // incoherent
             hist_t_afterPhaseSpace_incoherent->Fill(fabs(myEvent.t), 1);
         }
-        if(eOutVec.Eta() > -2.2 && myEvent.dmode<0.5){
-            h_Q2_select->Fill(myEvent.Q2);
-        }
-        if(myEvent.Q2>1 && myEvent.dmode<0.5){
-            h_Eta_e->Fill(eOutVec.Eta());
-        }
-        
+      
         acceptedEvents++;
-        //smearing
-        vector< TLorentzVector> update;
-        if(smear_){
-            update = letsMakeItReal(eInVec,eOutVec,aInVec,vmd1Vec,vmd2Vec);
-            eInVec=update[0];eOutVec=update[1];aInVec=update[2];vmd1Vec=update[3];vmd2Vec=update[4];  
-        }
         //VM t
         for(int imass=0;imass<3;imass++){
             TLorentzVector vmd1Vec_new,vmd2Vec_new,vmVec_new;
