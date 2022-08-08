@@ -285,7 +285,7 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                             double chi2=-99.;
                             chi2 = giveMe_PIDChi2(vmd1Vec_new, vmd2Vec_new, MASS_PION);
                             h_PID->Fill(vmd1Vec_new.P(), chi2);
-                            if(chi2>4.6) continue;
+                            if(chi2>4.6) {continue;}
                          }
                         //END TOF
                     }
