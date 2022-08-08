@@ -210,7 +210,6 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         TLorentzVector gammaVec(*gamma);
         TLorentzVector aInVec(0.,0.,pInVec.Pz()*197, sqrt(pInVec.Pz()*197*pInVec.Pz()*197 + MASS_AU197*MASS_AU197) );
         
-        
         //=================================================================
         //  ==> At this point all information of the tuple is available <==
         //=================================================================
@@ -219,6 +218,23 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         int coh_index=-1;
         if(myEvent.dmode < 0.5) coh_index=0;
         else coh_index=1;
+        
+        bool accepted = true;
+        double Q2=-gammaVec.Mag2();
+        double xbj = Q2/(2. * pInVec.Dot(gammaVec));
+        double W = myEvent.W;
+        double x_v = (Q2+3.09*3.09)/(W*W);
+        h_xbj_truth->Fill(myEvent.x);    
+        if (Q2>10.||Q2<1.) accepted = false;
+        if (xbj > 0.01 ) accepted = false; //artifact cut.
+        if (TMath::Abs(vmVec.Rapidity())>4.) accepted = false;
+        if (!accepted) continue;
+            if (myEvent.dmode < 0.5) { // coherent
+                hist_t_coherent->Fill(fabs(myEvent.t), 1);
+            }else {                    // incoherent
+                hist_t_incoherent->Fill(fabs(myEvent.t), 1);
+                h_xbj->Fill(xbj);
+            }
         //VM.
         h_VM[coh_index][0]->Fill(vmVec.Pt());
         h_VM[coh_index][1]->Fill(vmVec.Eta());
@@ -232,29 +248,11 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         h_VM_daughter[coh_index][1]->Fill(vmd2Vec.Eta());
         h_VM_daughter[coh_index][2]->Fill(vmd2Vec.Phi());
         
-        bool accepted = true;
-        double Q2=-gammaVec.Mag2();
-        double xbj = Q2/(2. * pInVec.Dot(gammaVec));
-        double W = myEvent.W;
-        double x_v = (Q2+3.09*3.09)/(W*W);
-        h_xbj_truth->Fill(myEvent.x);    
-        if (Q2>10.||Q2<1.) accepted = false;
-        if (xbj > 0.01 ) accepted = false; //artifact cut.
-        if (!accepted) continue;
-            if (myEvent.dmode < 0.5) { // coherent
-                hist_t_coherent->Fill(fabs(myEvent.t), 1);
-            }else {                    // incoherent
-                hist_t_incoherent->Fill(fabs(myEvent.t), 1);
-                h_xbj->Fill(xbj);
-            }
-        if (TMath::Abs(vmVec.Rapidity())>4.) accepted = false;
-        if (TMath::Abs(vmd1Vec.Eta())>4.) accepted = false;
-        if (TMath::Abs(vmd2Vec.Eta())>4.) accepted = false;
-        if (vmd1Vec.P() < 1. ) accepted = false;
-        if (vmd2Vec.P() < 1. ) accepted = false;
-
-        if (TMath::Abs(vmd1Vec.PseudoRapidity()) > 4.) accepted = false;
-        if (TMath::Abs(vmd2Vec.PseudoRapidity()) > 4.) accepted = false;
+        //daughter cuts.
+        if (TMath::Abs(vmd1Vec.Eta())>1.4) accepted = false;
+        if (TMath::Abs(vmd2Vec.Eta())>1.4) accepted = false;
+        // if (vmd1Vec.P() < 1. ) accepted = false;
+        // if (vmd2Vec.P() < 1. ) accepted = false;
         if (vmd1Vec.Pt() < minPt_) accepted = false;
         if (vmd2Vec.Pt() < minPt_) accepted = false;
         if (!accepted) continue;

@@ -18,16 +18,10 @@ void plotPhi(){
 
 	double lumi_to_apply_signal = numberOfSignalEvents / sigma_sartre_elect[1];
 	double lumi_to_apply_background = numberOfBackgroundEvents / sigma_sartre_elect[0];
+	//end constant
 
-	TH2D* h_phi_sig;
-	TH2D* h_phi_bkg;
-	int iscoherent=0;
-	int isrho=0;
-	int isphi=1;
-	int isMethodL=2;
-
-	h_phi_sig = (TH2D*) file[0]->Get("h_VM_t_mass_0_2_1");//coherent,Method-L,assume phi->KK mass
-	h_phi_bkg = (TH2D*) file[1]->Get("h_VM_t_mass_0_2_1");//coherent,Method-L,assume phi->K mass
+	TH2D*h_phi_sig = (TH2D*) file[0]->Get("h_VM_t_mass_0_2_1");//coherent,Method-L,assume phi->KK mass
+	TH2D*h_phi_bkg = (TH2D*) file[1]->Get("h_VM_t_mass_0_2_1");//coherent,Method-L,assume phi->K mass
 
 	TH1D* h_mass_sig = (TH1D*) h_phi_sig->ProjectionX("h_phi_sig_mass",1,100);
 	TH1D* h_mass_bkg = (TH1D*) h_phi_bkg->ProjectionX("h_phi_bkg_mass",1,100);
@@ -50,9 +44,6 @@ void plotPhi(){
 
 	h_t_sig->Draw("hist");
 	h_t_bkg->Draw("hist same");
-
-
-
 
 
 
