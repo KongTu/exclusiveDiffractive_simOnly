@@ -222,7 +222,8 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         double W = myEvent.W;
         double x_v = (Q2+3.09*3.09)/(W*W);
         h_xbj_truth->Fill(myEvent.x);
-        if(vm_name=="jpsi_photo"||vm_name=="phi_photo"||vm_name=="rho_photo"){ 
+        if(vm_name=="jpsi_photo"||vm_name=="phi_photo"||vm_name=="rho_photo"
+            ||vm_name=="phi_Q2-0.1-1"||vm_name=="rho_Q2-0.1-1"){ 
             if(Q2>1.0) accepted = false;
         }else{ 
             if(Q2<1.0) accepted = false;
