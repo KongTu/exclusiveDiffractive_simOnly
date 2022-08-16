@@ -278,7 +278,7 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                 if(TMath::Abs(vmd1Vec_new.Eta())<1.4 
                     && TMath::Abs(vmd2Vec_new.Eta())<1.4
                         && imass==1){
-                    if( vm_name=="rho"||vm_name=="rho_photo" ){
+                    if( vm_name=="rho"||vm_name=="rho_photo"||vm_name=="rho_Q2-0.1-1" ){
                         //hpDIRC
                         if(PID_==1){
                             if(TMath::Abs(vmd1Vec_new.Eta())>0.15 
