@@ -150,7 +150,7 @@ double giveMe_Amass(TLorentzVector e_beam, TLorentzVector e_scattered, TLorentzV
 }
 //
 double pathLength(double pt, double p){
-  double BField = 3.0;//Tesla
+  double BField = 1.7;//Tesla
   double LGADTOF = 64.0; //50cm from ATHENA, 64cm from ECCE
   double sintheta=LGADTOF*0.003*BField/2.0/pt;
   if (sintheta>1.0) return 0.0;
