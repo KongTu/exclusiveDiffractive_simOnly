@@ -128,6 +128,7 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
     TH2D* h_PID=new TH2D("h_PID",";p;chi2",100,0,3,500,0,100);
     TH1D* h_xbj_truth = new TH1D("h_xbj_truth","xbj",1000,1e-5,1.);
     TH1D* h_xbj = new TH1D("h_xbj","xbj",1000,1e-5,1.);
+    TH1D* h_eta_e = new TH1D("h_eta_e","#eta",100,-9,4);
     //
     //  Build chain
     //
@@ -238,6 +239,8 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                 hist_t_incoherent->Fill(fabs(myEvent.t), 1);
                 h_xbj->Fill(xbj);
             }
+        //e'
+        h_eta_e->Fill(eOutVec.Eta());
         //VM.
         h_VM[coh_index][0]->Fill(vmVec.Pt());
         h_VM[coh_index][1]->Fill(vmVec.Eta());
