@@ -128,7 +128,10 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
     TH2D* h_PID=new TH2D("h_PID",";p;chi2",100,0,3,500,0,100);
     TH1D* h_xbj_truth = new TH1D("h_xbj_truth","xbj",1000,1e-5,1.);
     TH1D* h_xbj = new TH1D("h_xbj","xbj",1000,1e-5,1.);
-    TH1D* h_eta_e = new TH1D("h_eta_e","#eta",100,-9,4);
+    TH1D* h_eta_e[3];
+    for(int ip=0;ip<3;ip++){
+        h_eta_e[ip] = new TH1D(Form("h_eta_e_%d",ip),"#eta",100,-9,4);
+    }
     //
     //  Build chain
     //
@@ -240,7 +243,7 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
                 h_xbj->Fill(xbj);
             }
         //e'
-        h_eta_e->Fill(eOutVec.Eta());
+        h_eta_e[0]->Fill(eOutVec.Eta());
         //VM.
         h_VM[coh_index][0]->Fill(vmVec.Pt());
         h_VM[coh_index][1]->Fill(vmVec.Eta());
@@ -268,6 +271,7 @@ void runSartreTree(double fractionOfEventsToRead = 1, TString vm_name="jpsi", in
         }
       
         acceptedEvents++;
+        h_eta_e[1]->Fill(eOutVec.Eta());
         //VM t
         for(int imass=0;imass<3;imass++){
             TLorentzVector vmd1Vec_new,vmd2Vec_new,vmVec_new;
